@@ -9,47 +9,47 @@ import com.example.carrito_compra.repository.*;
 
 @Service
 @Transactional
-public class ShopServiceImpl implements ShopService {
+public class TiendaServicioImpl implements TiendaServicio {
     
-    private final ProductRepository products;
-    private final CartItemRepository cartRepo;
+    private final ProductoRepositorio products;
+    private final ItemCarritoRepositorio cartRepo;
 
-    public ShopServiceImpl(ProductRepository products, CartItemRepository cartRepo) {
+    public TiendaServicioImpl(ProductoRepositorio products, ItemCarritoRepositorio cartRepo) {
         this.products = products;
         this.cartRepo = cartRepo;
     }
 
     @Override 
-    public List<Product> findAllProducts() { 
+    public List<Producto> findAllProducts() {
         return products.findAll(); 
     }
     
     @Override 
-    public Product createProduct(Product p) { 
+    public Producto createProduct(Producto p) {
         return products.save(p); 
     }
     
     @Override 
-    public Product getProduct(Long id) { 
+    public Producto getProduct(Long id) {
         return products.findById(id).orElseThrow(); 
     }
 
     @Override 
-    public List<CartItem> getCart(String sessionId) {
+    public List<ItemCarrito> getCart(String sessionId) {
         return cartRepo.findBySessionId(sessionId);
     }
 
     @Override 
     public void addToCart(String sessionId, Long productId, int qty) {
-        Product p = getProduct(productId);
-        Optional<CartItem> itemExistente = cartRepo.findBySessionIdAndProductId(sessionId, productId);
+        Producto p = getProduct(productId);
+        Optional<ItemCarrito> itemExistente = cartRepo.findBySessionIdAndProductId(sessionId, productId);
 
         if (itemExistente.isPresent()) {
-            CartItem item = itemExistente.get();
+            ItemCarrito item = itemExistente.get();
             item.setQuantity(item.getQuantity() + qty);
             cartRepo.save(item);
         } else {
-            CartItem nuevo = CartItem.builder()
+            ItemCarrito nuevo = ItemCarrito.builder()
                 .sessionId(sessionId)
                 .productId(productId)
                 .name(p.getName())

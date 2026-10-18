@@ -6,7 +6,7 @@ import lombok.*;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class Product {
+public class Producto {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 

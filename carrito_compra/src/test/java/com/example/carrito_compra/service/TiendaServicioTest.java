@@ -1,9 +1,9 @@
 package com.example.carrito_compra.service;
 
-import com.example.carrito_compra.entity.Product;
-import com.example.carrito_compra.entity.CartItem;
-import com.example.carrito_compra.repository.ProductRepository;
-import com.example.carrito_compra.repository.CartItemRepository;
+import com.example.carrito_compra.entity.Producto;
+import com.example.carrito_compra.entity.ItemCarrito;
+import com.example.carrito_compra.repository.ProductoRepositorio;
+import com.example.carrito_compra.repository.ItemCarritoRepositorio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,16 +17,16 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ShopServiceTest {
+class TiendaServicioTest {
 
     @Mock
-    private ProductRepository productRepository;
+    private ProductoRepositorio productRepository;
 
     @Mock
-    private CartItemRepository cartItemRepository;
+    private ItemCarritoRepositorio cartItemRepository;
 
     @InjectMocks
-    private ShopServiceImpl shopService;
+    private TiendaServicioImpl shopService;
 
     @BeforeEach
     void setUp() {
@@ -35,15 +35,15 @@ class ShopServiceTest {
 
     @Test
     void testCreateProduct() {
-        Product productoFalso = Product.builder()
+        Producto productoFalso = Producto.builder()
                 .id(1L)
                 .name("Tasa de prueba")
                 .price(50.0)
                 .build();
 
-        when(productRepository.save(any(Product.class))).thenReturn(productoFalso);
+        when(productRepository.save(any(Producto.class))).thenReturn(productoFalso);
 
-        Product resultado = shopService.createProduct(productoFalso);
+        Producto resultado = shopService.createProduct(productoFalso);
 
         assertNotNull(resultado);
         assertEquals("Tasa de prueba", resultado.getName());
@@ -52,12 +52,12 @@ class ShopServiceTest {
 
     @Test
     void testFindAllProducts() {
-        Product p1 = Product.builder().id(1L).name("Producto 1").price(10.0).build();
-        Product p2 = Product.builder().id(2L).name("Producto 2").price(20.0).build();
+        Producto p1 = Producto.builder().id(1L).name("Producto 1").price(10.0).build();
+        Producto p2 = Producto.builder().id(2L).name("Producto 2").price(20.0).build();
 
         when(productRepository.findAll()).thenReturn(Arrays.asList(p1, p2));
 
-        List<Product> lista = shopService.findAllProducts();
+        List<Producto> lista = shopService.findAllProducts();
 
         assertEquals(2, lista.size());
         verify(productRepository, times(1)).findAll();
@@ -65,13 +65,13 @@ class ShopServiceTest {
 
     @Test
     void testAddToCart() {
-        Product p1 = Product.builder().id(1L).name("Producto 1").price(10.0).build();
+        Producto p1 = Producto.builder().id(1L).name("Producto 1").price(10.0).build();
         when(productRepository.findById(1L)).thenReturn(Optional.of(p1));
         
         when(cartItemRepository.findBySessionIdAndProductId("sesion123", 1L)).thenReturn(Optional.empty());
 
         shopService.addToCart("sesion123", 1L, 2);
 
-        verify(cartItemRepository, times(1)).save(any(CartItem.class));
+        verify(cartItemRepository, times(1)).save(any(ItemCarrito.class));
     }
 }

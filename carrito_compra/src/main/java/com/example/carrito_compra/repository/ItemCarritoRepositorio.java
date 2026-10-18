@@ -1,15 +1,15 @@
 package com.example.carrito_compra.repository;
 
-import com.example.carrito_compra.entity.CartItem;
+import com.example.carrito_compra.entity.ItemCarrito;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface CartItemRepository extends JpaRepository<CartItem, Long> {
+public interface ItemCarritoRepositorio extends JpaRepository<ItemCarrito, Long> {
     
-    List<CartItem> findBySessionId(String sessionId);
+    List<ItemCarrito> findBySessionId(String sessionId);
     
-    Optional<CartItem> findBySessionIdAndProductId(String sessionId, Long productId);
+    Optional<ItemCarrito> findBySessionIdAndProductId(String sessionId, Long productId);
     
     void deleteBySessionIdAndProductId(String sessionId, Long productId);
     

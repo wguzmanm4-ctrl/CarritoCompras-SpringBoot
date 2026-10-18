@@ -3,14 +3,14 @@ package com.example.carrito_compra.service;
 import java.util.List;
 import com.example.carrito_compra.entity.*;
 
-public interface ShopService {
+public interface TiendaServicio {
   // Products
-  List<Product> findAllProducts();
-  Product createProduct(Product p);
-  Product getProduct(Long id);
+  List<Producto> findAllProducts();
+  Producto createProduct(Producto p);
+  Producto getProduct(Long id);
 
   // Cart
-  List<CartItem> getCart(String sessionId);
+  List<ItemCarrito> getCart(String sessionId);
   void addToCart(String sessionId, Long productId, int qty);
   void removeFromCart(String sessionId, Long productId);
   double total(String sessionId);

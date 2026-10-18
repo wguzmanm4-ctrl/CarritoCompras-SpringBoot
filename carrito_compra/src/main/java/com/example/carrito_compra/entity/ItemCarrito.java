@@ -5,7 +5,7 @@ import lombok.*;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
-public class CartItem {
+public class ItemCarrito {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

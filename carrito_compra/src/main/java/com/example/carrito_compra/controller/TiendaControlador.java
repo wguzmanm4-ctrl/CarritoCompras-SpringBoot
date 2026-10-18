@@ -1,7 +1,7 @@
 package com.example.carrito_compra.controller;
 
-import com.example.carrito_compra.service.ShopService;
-import com.example.carrito_compra.entity.Product;
+import com.example.carrito_compra.service.TiendaServicio;
+import com.example.carrito_compra.entity.Producto;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -11,22 +11,22 @@ import org.springframework.validation.BindingResult;
 
 @Controller
 @RequestMapping("/")
-public class ShopController {
-  private final ShopService service;
+public class TiendaControlador {
+  private final TiendaServicio service;
 
-  public ShopController(ShopService service) { this.service = service; }
+  public TiendaControlador(TiendaServicio service) { this.service = service; }
 
   // Catálogo
   @GetMapping
   public String index(Model model) {
     model.addAttribute("products", service.findAllProducts());
-    model.addAttribute("productForm", new Product());
+    model.addAttribute("productForm", new Producto());
     return "index";
   }
 
   // Alta producto (admin simple)
   @PostMapping("product")
-  public String create(@Valid @ModelAttribute("productForm") Product form, BindingResult br) {
+  public String create(@Valid @ModelAttribute("productForm") Producto form, BindingResult br) {
     if (br.hasErrors()) return "index";
     service.createProduct(form);
     return "redirect:/";
